@@ -1,4 +1,4 @@
-name: Test Action
+name: Test clang-tidy-check Action
 
 on:
   push:
@@ -32,7 +32,6 @@ jobs:
         with:
           compile-commands-path: "./test/good_project/build/compile_commands.json"
 
-
   test-on-poor-project:
     runs-on: [ ubuntu-latest ]
 
@@ -64,6 +63,6 @@ jobs:
         shell: bash
         run: |
           if [ "${{steps.clang-tidy-check-poor-project.outcome}}" != "failure" ]; then
-              printf "Error: expected clang-tidy-check-poor-project setp to fail"
+              printf "Error: expected clang-tidy-check-poor-project step to fail"
               exit 1
           fi
