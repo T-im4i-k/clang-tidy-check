@@ -1,0 +1,60 @@
+name: Clang Tidy Check
+description: Checks C++ code quality with clang-tidy
+author: T-im4i-k
+
+inputs:
+  version:
+    description: Version of clang-tidy to use
+    type: string
+    required: false
+    default: '18'
+
+  compile-commands-path:
+    description: Path to compile_commands.json file
+    type: string
+    required: true
+
+  checks:
+    description: Comma-separated list of checks to enable/disable
+    type: string
+    required: false
+    default: ''
+
+  warnings-as-errors:
+    description: Comma-separated list of warnings that will be treated as errors
+    type: string
+    required: false
+    default: '*'
+
+  config-file:
+    description: Path to custom .clang-tidy config file
+    type: string
+    required: false
+    default: ''
+
+  extra-args:
+    description: Additional clang-tidy arguments
+    type: string
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install clang-tidy
+      shell: bash
+      run: |
+        sudo apt-get update && \
+        sudo apt-get install -y clang-tidy-"${{inputs.version}}"
+
+    - name: Check code quality
+      shell: bash
+      run: bash "${{github.action_path}}/script/clang_tidy_check.sh"
+      env:
+        CLANG_TIDY_VERSION: "${{inputs.version}}"
+        CLANG_TIDY_COMPILE_COMMANDS_PATH: "${{inputs.compile-commands-path}}"
+        CLANG_TIDY_CHECKS: "${{inputs.checks}}"
+        CLANG_TIDY_WARNINGS_AS_ERRORS: "${{inputs.warnings-as-errors}}"
+        CLANG_TIDY_CONFIG_FILE: "${{inputs.config-file}}"
+        CLANG_TIDY_EXTRA_ARGS: "${{inputs.extra-args}}"
+
