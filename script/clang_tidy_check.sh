@@ -1,0 +1,72 @@
+#!/bin/bash
+
+if [ -z "$CLANG_TIDY_VERSION" ]; then
+	printf "Error: variable CLANG_TIDY_VERSION is required\n"
+	exit 1
+fi
+
+if [ -z "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
+	printf "Error: variable CLANG_TIDY_COMPILE_COMMANDS_PATH is required\n"
+	exit 1
+fi
+
+if [ ! -f "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
+	printf "Error: %s is not a valid regular file\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
+	exit 1
+fi
+
+if ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" 1>/dev/null 2>&1; then
+	printf "Error: %s is not a valid .json file\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
+	exit 1
+fi
+
+CLANG_TIDY_ARGS=()
+CLANG_TIDY_ARGS+=("-p=$CLANG_TIDY_COMPILE_COMMANDS_PATH")
+
+if [ -n "$CLANG_TIDY_CHECKS" ]; then
+	CLANG_TIDY_ARGS+=("--checks=$CLANG_TIDY_CHECKS")
+fi
+
+if [ -n "$CLANG_TIDY_WARNINGS_AS_ERRORS" ]; then
+	CLANG_TIDY_ARGS+=("--warnings-as-errors=$CLANG_TIDY_WARNINGS_AS_ERRORS")
+fi
+
+if [ -n "$CLANG_TIDY_CONFIG_FILE" ]; then
+	CLANG_TIDY_ARGS+=("--config-file=$CLANG_TIDY_CONFIG_FILE")
+fi
+
+if [ -n "$CLANG_TIDY_EXTRA_ARGS" ]; then
+	read -ra CLANG_TIDY_EXTRA_ARGS_ARRAY <<<"$CLANG_TIDY_EXTRA_ARGS"
+	CLANG_TIDY_ARGS+=("${CLANG_TIDY_EXTRA_ARGS_ARRAY[@]}")
+fi
+
+function print_delim() {
+	printf -- "---\n"
+}
+
+CHECK_FAIL="false"
+
+printf "Checking code quality with clang-tidy...\n"
+printf "clang-tidy arguments: %s\n" "${CLANG_TIDY_ARGS[*]}"
+print_delim
+
+while IFS= read -r FILE_METADATA; do
+	FILE_PATH=$(jq -r '.file' <<<"$FILE_METADATA")
+
+	printf "Checking file %s...\n" "$FILE_PATH"
+
+	if ! clang-tidy-"$CLANG_TIDY_VERSION" "${CLANG_TIDY_ARGS[@]}" \
+		"$FILE_PATH" 2>&1; then
+		CHECK_FAIL="true"
+	fi
+
+	print_delim
+done < <(jq -c '.[]' "$CLANG_TIDY_COMPILE_COMMANDS_PATH")
+
+if [ "$CHECK_FAIL" = "true" ]; then
+	printf "### clang-tidy quality check FAIL ###\n"
+	exit 1
+else
+	printf "### clang-tidy quality check SUCCESS ###\n"
+	exit 0
+fi
