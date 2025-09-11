@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test-on-good-code:
+  test-on-good-project:
     runs-on: [ ubuntu-latest ]
 
     steps:
@@ -20,19 +20,19 @@ jobs:
           sudo apt-get update && \
           sudo apt-get install -y cmake ninja-build clang-18
 
-      - name: Configure good quality project
+      - name: Configure good project
         shell: bash
         run: |
-          cd "test/good_quality_code/"
+          cd "test/good_project/"
           cmake -B build -S . -DCMAKE_CXX_COMPILER=clang++ -G Ninja
 
-      - name: Run clang-tidy-check action on good quality project
+      - name: Run clang-tidy-check action on good project
         uses: ./
         with:
-          compile-commands-path: "./test/good_quality_code/build/compile_commands.json"
+          compile-commands-path: "./test/good_project/build/compile_commands.json"
 
 
-  test-on-poor-code:
+  test-on-poor-project:
     runs-on: [ ubuntu-latest ]
 
     steps:
@@ -45,23 +45,23 @@ jobs:
           sudo apt-get update && \
           sudo apt-get install -y cmake ninja-build clang-18
 
-      - name: Configure poor quality project
+      - name: Configure poor project
         shell: bash
         run: |
-          cd "test/poor_quality_code/"
+          cd "test/poor_project/"
           cmake -B build -S . -DCMAKE_CXX_COMPILER=clang++ -G Ninja
 
-      - name: Run clang-tidy-check action on poor quality project
-        id: clang-tidy-check-poor-code
+      - name: Run clang-tidy-check action on poor project
+        id: clang-tidy-check-poor-project
         uses: ./
         continue-on-error: true
         with:
-          compile-commands-path: "./test/poor_quality_code/build/compile_commands.json"
+          compile-commands-path: "./test/poor_project/build/compile_commands.json"
 
       - name: Verify last step fail
         shell: bash
         run: |
-          if [ "${{steps.clang-tidy-check-poor-code.outcome}}" != "failure" ]; then
-              printf "Error: expected clang-tidy-check-poor-code action to fail"
+          if [ "${{steps.clang-tidy-check-poor-project.outcome}}" != "failure" ]; then
+              printf "Error: expected clang-tidy-check-poor-project setp to fail"
               exit 1
           fi
