@@ -1,0 +1,67 @@
+name: Test Action
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test-on-good-code:
+    runs-on: [ ubuntu-latest ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        shell: bash
+        run: |
+          sudo apt-get update && \
+          sudo apt-get install -y cmake ninja-build clang-18
+
+      - name: Configure good quality project
+        shell: bash
+        run: |
+          cd "test/good_quality_code/"
+          cmake -B build -S . -DCMAKE_CXX_COMPILER=clang++ -G Ninja
+
+      - name: Run clang-tidy-check action on good quality project
+        uses: ./
+        with:
+          compile-commands-path: "./test/good_quality_code/build/compile_commands.json"
+
+
+  test-on-poor-code:
+    runs-on: [ ubuntu-latest ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        shell: bash
+        run: |
+          sudo apt-get update && \
+          sudo apt-get install -y cmake ninja-build clang-18
+
+      - name: Configure poor quality project
+        shell: bash
+        run: |
+          cd "test/poor_quality_code/"
+          cmake -B build -S . -DCMAKE_CXX_COMPILER=clang++ -G Ninja
+
+      - name: Run clang-tidy-check action on poor quality project
+        id: clang-tidy-check-poor-code
+        uses: ./
+        continue-on-error: true
+        with:
+          compile-commands-path: "./test/poor_quality_code/build/compile_commands.json"
+
+      - name: Verify last step fail
+        shell: bash
+        run: |
+          if [ "${{steps.clang-tidy-check-poor-code.outcome}}" != "failure" ]; then
+              printf "Error: expected clang-tidy-check-poor-code action to fail"
+              exit 1
+          fi
