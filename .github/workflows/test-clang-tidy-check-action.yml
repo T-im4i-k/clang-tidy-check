@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           cd "test/good_project/"
-          cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=clang++ \ 
+          cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=clang++ \
           -DCMAKE_CXX_SCAN_FOR_MODULES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Run clang-tidy-check action on good project
@@ -49,7 +49,7 @@ jobs:
         shell: bash
         run: |
           cd "test/poor_project/"
-          cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=clang++ \ 
+          cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=clang++ \
           -DCMAKE_CXX_SCAN_FOR_MODULES=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Run clang-tidy-check action on poor project
