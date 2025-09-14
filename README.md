@@ -59,7 +59,19 @@ Any additional **clang-tidy** arguments.
 - **Default:** `''`
 - **Optional.** Specify `''` to ignore.
 
-## Example With All Options
+## Output
+
+The action provides following outputs:
+
+- Individual file checking status
+- **clang-tidy** warnings and errors
+- Final summary (SUCCESS/FAIL)
+
+Action will fail with exit code 1 if any **clang-tidy** errors occur.
+
+## Examples
+
+### Example With All Options
 
 In your **GitHub Workflow:**
 
@@ -85,13 +97,3 @@ In your **GitHub Workflow:**
   with:
     compile-commands-path: './path/to/compile_commands.json'
 ```
-
-## Output
-
-The action provides following outputs:
-
-- Individual file checking status
-- **clang-tidy** warnings and errors
-- Final summary (SUCCESS/FAIL)
-
-Action will fail with exit code 1 if any **clang-tidy** errors occur.
