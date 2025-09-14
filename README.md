@@ -1,7 +1,8 @@
 # Clang Tidy Check
 
-A fast and lightweight **GitHub Action** for automated C++ code quality assessment using the **clang-tidy** static
-analysis tool. Designed to integrate seamlessly into your **GitHub Workflows** for continuous code quality monitoring.
+A fast and lightweight **GitHub Action** for automated C++ code quality assessment using
+the [clang-tidy](https://clang.llvm.org/extra/clang-tidy/) static analysis tool. Designed to integrate seamlessly into
+your **GitHub Workflows** for continuous code quality monitoring.
 
 ## Supported Platforms
 
@@ -9,8 +10,8 @@ This action currently supports **Ubuntu** runners only (including `ubuntu-latest
 
 ## Behavior
 
-The action processes all files listed in your `compile_commands.json` with **clang-tidy**, providing detailed output for
-each file checked.
+The action processes all files listed in your `compile_commands.json` compilation database with **clang-tidy**,
+providing detailed output for each file checked.
 
 ## Arguments
 
@@ -18,53 +19,45 @@ each file checked.
 
 Version of **clang-tidy** that will be used.
 
-**Default:** `'18'`
-
-**Optional.**
+- **Default:** `'18'`
+- **Optional.**
 
 ### `compile-commands-path`
 
-Path to your `compile_commands.json`.
+Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilationDatabase.html).
 
-**Required.**
+- **Required.**
 
 ### `checks`
 
 Comma-separated list of checks to enable/disable.
 
-Same as **clang-tidy** `--checks=`.
-
-**Default:** `''`
-
-**Optional.** Specify `''` to ignore.
+- Same as **clang-tidy** `--checks=`.
+- **Default:** `''`
+- **Optional.** Specify `''` to ignore.
 
 ### `warnings-as-errors`
 
 Comma-separated list of warnings that will be treated as errors.
 
-Same as **clang-tidy** `--warnings-as-errors=`.
-
-**Default:** `'*'`
-
-**Optional.** Specify `''` to ignore.
+- Same as **clang-tidy** `--warnings-as-errors=`.
+- **Default:** `'*'`
+- **Optional.** Specify `''` to ignore.
 
 ### `config-file`
 
 Path to custom `.clang-tidy` config file.
 
-Same as **clang-tidy** `--config-file=`.
-
-**Default:** `''`
-
-**Optional.** Specify `''` to ignore.
+- Same as **clang-tidy** `--config-file=`.
+- **Default:** `''`
+- **Optional.** Specify `''` to ignore.
 
 ### `extra-args`
 
 Any additional **clang-tidy** arguments.
 
-**Default:** `''`
-
-**Optional.** Specify `''` to ignore.
+- **Default:** `''`
+- **Optional.** Specify `''` to ignore.
 
 ## Example With All Options
 
@@ -82,7 +75,7 @@ In your **GitHub Workflow:**
     extra-args: '--quiet'
 ```
 
-### Quick Start Example
+### Minimal Working Example
 
 In your **GitHub Workflow:**
 
@@ -95,10 +88,10 @@ In your **GitHub Workflow:**
 
 ## Output
 
-The action provides detailed output, including:
+The action provides following outputs:
 
 - Individual file checking status
 - **clang-tidy** warnings and errors
 - Final summary (SUCCESS/FAIL)
 
-The action will fail with exit code 1 if any **clang-tidy** errors occur.
+Action will fail with exit code 1 if any **clang-tidy** errors occur.
