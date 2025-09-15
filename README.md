@@ -6,7 +6,7 @@ your **GitHub Workflows** for continuous code quality monitoring.
 
 ## Supported Platforms
 
-This action currently supports **Ubuntu** runners only (including `ubuntu-latest`, `ubuntu-22.04`, `ubuntu-20.04`).
+This action currently supports **Ubuntu** runners only (including `ubuntu-latest` and `ubuntu-22.04`).
 
 ## Behavior
 
