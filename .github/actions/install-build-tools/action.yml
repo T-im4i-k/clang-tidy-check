@@ -21,26 +21,7 @@ runs:
           exit 1
         fi
 
-    - name: Install cmake
+    - name: Install cmake, ninja and clang
       shell: bash
       run: |
-        if ! sudo apt install -y cmake &>/dev/null; then
-          printf "Error: cmake installation failed.\n"
-          exit 1
-        fi
-
-    - name: Install ninja
-      shell: bash
-      run: |
-        if ! sudo apt install -y ninja-build &>/dev/null; then
-          printf "Error: ninja installation failed.\n"
-          exit 1
-        fi
-
-    - name: Install clang
-      shell: bash
-      run: |
-        if ! sudo apt install -y clang &>/dev/null; then
-          printf "Error: clang installation failed.\n"
-          exit 1
-        fi
+        bash "${{github.action_path}}/install_build_tools.sh"
