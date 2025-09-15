@@ -41,6 +41,14 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Check runner OS
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" != "Linux" ]; then
+          printf "Error: OS %s is not supported.\n" "$RUNNER_OS"
+          exit 1
+        fi
+
     - name: Install clang-tidy
       shell: bash
       run: |

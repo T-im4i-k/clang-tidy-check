@@ -8,7 +8,18 @@ on:
 
 jobs:
   test-on-good-project:
-    runs-on: [ ubuntu-latest ]
+    runs-on: "${{matrix.os}}"
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, ubuntu-22.04 ]
+        clang-tidy-version: [ 14, 16, 18 ]
+
+        exclude:
+          - os: ubuntu-22.04
+            clang-tidy-version: 16
+          - os: ubuntu-22.04
+            clang-tidy-version: 18
 
     steps:
       - name: Checkout source
@@ -18,7 +29,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang-18
+          sudo apt-get install -y cmake ninja-build clang
 
       - name: Configure good project
         shell: bash
@@ -30,10 +41,22 @@ jobs:
       - name: Run clang-tidy-check action on good project
         uses: ./
         with:
+          version: "${{matrix.clang-tidy-version}}"
           compile-commands-path: "./test/good_project/build/compile_commands.json"
 
   test-on-poor-project:
-    runs-on: [ ubuntu-latest ]
+    runs-on: "${{matrix.os}}"
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, ubuntu-22.04 ]
+        clang-tidy-version: [ 14, 16, 18 ]
+
+        exclude:
+          - os: ubuntu-22.04
+            clang-tidy-version: 16
+          - os: ubuntu-22.04
+            clang-tidy-version: 18
 
     steps:
       - name: Checkout source
@@ -43,7 +66,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang-18
+          sudo apt-get install -y cmake ninja-build clang
 
       - name: Configure poor project
         shell: bash
@@ -57,12 +80,13 @@ jobs:
         uses: ./
         continue-on-error: true
         with:
+          version: "${{matrix.clang-tidy-version}}"
           compile-commands-path: "./test/poor_project/build/compile_commands.json"
 
       - name: Verify last step fail
         shell: bash
         run: |
           if [ "${{steps.clang-tidy-check-poor-project.outcome}}" != "failure" ]; then
-              printf "Error: expected clang-tidy-check-poor-project step to fail"
+              printf "Error: expected clang-tidy-check-poor-project step to fail.\n"
               exit 1
           fi
