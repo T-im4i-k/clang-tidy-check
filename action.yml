@@ -53,7 +53,7 @@ runs:
         
           LLVM_BIN_PATH="$(brew --prefix llvm@${{inputs.version}})/bin"
           ln -s "$LLVM_BIN_PATH/clang-tidy" "$LLVM_BIN_PATH/clang-tidy-${{inputs.version}}"
-          printf "%s/" "$LLVM_BIN_PATH" >> $GITHUB_PATH
+          printf "%s/\n" "$LLVM_BIN_PATH" >> $GITHUB_PATH
         else
           printf "Error: OS $RUNNER_OS is not supported\n"
           exit 1
