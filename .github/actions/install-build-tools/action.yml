@@ -13,11 +13,11 @@ runs:
           exit 1
         fi
 
-    - name: Update apt
+    - name: Update apt-get
       shell: bash
       run: |
-        if ! sudo apt update &>/dev/null; then
-          printf "Error: apt update failed.\n"
+        if ! sudo apt-get update &>/dev/null; then
+          printf "Error: apt-get update failed.\n"
           exit 1
         fi
 
