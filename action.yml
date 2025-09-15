@@ -44,8 +44,13 @@ runs:
     - name: Install clang-tidy
       shell: bash
       run: |
-        sudo apt-get update && \
-        sudo apt-get install -y clang-tidy-"${{inputs.version}}"
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          sudo apt-get update && \
+          sudo apt-get install -y clang-tidy-"${{inputs.version}}" || exit 1
+        else
+          printf "Error: OS $RUNNER_OS is not supported\n"
+          exit 1
+        fi
 
     - name: Check code quality
       shell: bash
