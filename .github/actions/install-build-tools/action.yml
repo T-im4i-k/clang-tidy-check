@@ -16,6 +16,7 @@ runs:
     - name: Update apt-get
       shell: bash
       run: |
+        printf "Updating apt-get...\n"
         if ! sudo apt-get update &>/dev/null; then
           printf "Error: apt-get update failed.\n"
           exit 1
