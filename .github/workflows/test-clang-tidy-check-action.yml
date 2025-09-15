@@ -25,11 +25,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install build tools
-        shell: bash
-        run: |
-          sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang
+      - name: Install cmake, ninja and clang
+        uses: ./.github/actions/install-build-tools
 
       - name: Configure good project
         shell: bash
@@ -62,11 +59,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install build tools
-        shell: bash
-        run: |
-          sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang
+      - name: Install cmake, ninja and clang
+        uses: ./.github/actions/install-build-tools
 
       - name: Configure poor project
         shell: bash
