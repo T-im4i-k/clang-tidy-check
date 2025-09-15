@@ -47,6 +47,13 @@ runs:
         if [ "$RUNNER_OS" = "Linux" ]; then
           sudo apt-get update && \
           sudo apt-get install -y clang-tidy-"${{inputs.version}}" || exit 1
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          brew update && \
+          brew install llvm@"${{inputs.version}}" || exit 1
+        
+          LLVM_BIN_PATH="$(brew --prefix llvm@${{inputs.version}})/bin"
+          ln -s "$LLVM_BIN_PATH/clang-tidy" "$LLVM_BIN_PATH/clang-tidy-${{inputs.version}}"
+          printf "%s/" "$LLVM_BIN_PATH" >> $GITHUB_PATH
         else
           printf "Error: OS $RUNNER_OS is not supported\n"
           exit 1
