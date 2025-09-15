@@ -12,34 +12,29 @@ function print_boxed(){
   print_delim
 }
 
+printf "Installing required packages...\n"
 if which cmake &>/dev/null && cmake --version &>/dev/null; then
-  printf "Found cmake installation:\n"
-  print_boxed "$(cmake --version)"
+  print_boxed "Found cmake installation:\n$(cmake --version)"
 elif sudo apt-get install -y cmake &>/dev/null; then
-  printf "Installed cmake:\n"
-  print_boxed "$(cmake --version)"
+  print_boxed "Installed cmake:\n$(cmake --version)"
 else
   printf "Error: cmake installation failed.\n"
   exit 1
 fi
 
 if which ninja &>/dev/null && ninja --version &>/dev/null; then
-  printf "Found ninja installation:\n"
-  print_boxed "$(ninja --version)"
+  print_boxed "Found ninja installation:\n$(ninja --version)"
 elif sudo apt-get install -y ninja-build &>/dev/null; then
-  printf "Installed ninja:\n"
-  print_boxed "$(ninja --version)"
+  print_boxed "Installed ninja:\n$(ninja --version)"
 else
   printf "Error: ninja installation failed.\n"
   exit 1
 fi
 
 if which clang &>/dev/null && clang --version &>/dev/null; then
-  printf "Found clang installation:\n"
-  print_boxed "$(clang --version)"
+  print_boxed "Found clang installation:\n$(clang --version)"
 elif sudo apt-get install -y clang &>/dev/null; then
-  printf "Installed clang:\n"
-  print_boxed "$(clang --version)"
+  print_boxed "Installed clang:\n$(clang --version)"
 else
   printf "Error: clang installation failed.\n"
   exit 1
