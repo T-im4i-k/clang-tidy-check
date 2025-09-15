@@ -87,6 +87,6 @@ jobs:
         shell: bash
         run: |
           if [ "${{steps.clang-tidy-check-poor-project.outcome}}" != "failure" ]; then
-              printf "Error: expected clang-tidy-check-poor-project step to fail\n"
+              printf "Error: expected clang-tidy-check-poor-project step to fail.\n"
               exit 1
           fi
