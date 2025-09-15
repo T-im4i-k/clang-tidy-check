@@ -8,7 +8,11 @@ on:
 
 jobs:
   test-on-good-project:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest macos-latest ]
 
     steps:
       - name: Checkout source
@@ -17,8 +21,19 @@ jobs:
       - name: Install build tools
         shell: bash
         run: |
-          sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang-18
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            sudo apt-get update && \
+            sudo apt-get install -y cmake ninja-build clang-18 || exit 1
+          elif [ "$RUNNER_OS" = "macOS" ]; then
+            brew update && \
+            brew install cmake ninja llvm@18 || exit 1
+          
+            LLVM_BIN_PATH="$(brew --prefix llvm@18)/bin"
+            printf "%s/\n" "$LLVM_BIN_PATH" >> $GITHUB_PATH
+          else
+            printf "Error: OS $RUNNER_OS is not supported\n"
+            exit 1
+          fi
 
       - name: Configure good project
         shell: bash
@@ -33,7 +48,11 @@ jobs:
           compile-commands-path: "./test/good_project/build/compile_commands.json"
 
   test-on-poor-project:
-    runs-on: [ ubuntu-latest ]
+    runs-on: "${{matrix.os}}"
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest macos-latest ]
 
     steps:
       - name: Checkout source
@@ -42,8 +61,19 @@ jobs:
       - name: Install build tools
         shell: bash
         run: |
-          sudo apt-get update && \
-          sudo apt-get install -y cmake ninja-build clang-18
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            sudo apt-get update && \
+            sudo apt-get install -y cmake ninja-build clang-18 || exit 1
+          elif [ "$RUNNER_OS" = "macOS" ]; then
+            brew update && \
+            brew install cmake ninja llvm@18 || exit 1
+          
+            LLVM_BIN_PATH="$(brew --prefix llvm@18)/bin"
+            printf "%s/\n" "$LLVM_BIN_PATH" >> $GITHUB_PATH
+          else
+            printf "Error: OS $RUNNER_OS is not supported\n"
+            exit 1
+          fi
 
       - name: Configure poor project
         shell: bash
