@@ -1,0 +1,46 @@
+name: Install Build Tools
+description: Installs cmake, ninja and clang
+author: T-im4i-k
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check runner OS
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" != "Linux" ]; then
+          printf "Error: OS %s is not supported.\n" "$RUNNER_OS"
+          exit 1
+        fi
+
+    - name: Update apt
+      shell: bash
+      run: |
+        if ! sudo apt update &>/dev/null; then
+          printf "Error: apt update failed.\n"
+          exit 1
+        fi
+
+    - name: Install cmake
+      shell: bash
+      run: |
+        if ! sudo apt install -y cmake &>/dev/null; then
+          printf "Error: cmake installation failed.\n"
+          exit 1
+        fi
+
+    - name: Install ninja
+      shell: bash
+      run: |
+        if ! sudo apt install -y ninja-build &>/dev/null; then
+          printf "Error: ninja installation failed.\n"
+          exit 1
+        fi
+
+    - name: Install clang
+      shell: bash
+      run: |
+        if ! sudo apt install -y clang &>/dev/null; then
+          printf "Error: clang installation failed.\n"
+          exit 1
+        fi
