@@ -18,31 +18,31 @@ inputs:
     description: Regular expression for files that will be excluded from check
     type: string
     required: false
-    default: ''
+    default: '__UNSET__'
 
   checks:
     description: Comma-separated list of checks to enable/disable
     type: string
     required: false
-    default: ''
+    default: '__UNSET__'
 
   warnings-as-errors:
     description: Comma-separated list of warnings that will be treated as errors
     type: string
     required: false
-    default: '*'
+    default: '__UNSET__'
 
   config-file:
     description: Path to custom .clang-tidy config file
     type: string
     required: false
-    default: ''
+    default: '__UNSET__'
 
   extra-args:
     description: Additional clang-tidy arguments
     type: string
     required: false
-    default: ''
+    default: '__UNSET__'
 
 runs:
   using: "composite"
