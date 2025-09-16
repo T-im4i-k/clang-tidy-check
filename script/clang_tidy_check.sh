@@ -23,19 +23,21 @@ fi
 CLANG_TIDY_ARGS=()
 CLANG_TIDY_ARGS+=("-p=$CLANG_TIDY_COMPILE_COMMANDS_PATH")
 
-if [ -n "$CLANG_TIDY_CHECKS" ]; then
+UNSET_VALUE='__UNSET__'
+
+if [ "$CLANG_TIDY_CHECKS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--checks=$CLANG_TIDY_CHECKS")
 fi
 
-if [ -n "$CLANG_TIDY_WARNINGS_AS_ERRORS" ]; then
+if [ "$CLANG_TIDY_WARNINGS_AS_ERRORS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--warnings-as-errors=$CLANG_TIDY_WARNINGS_AS_ERRORS")
 fi
 
-if [ -n "$CLANG_TIDY_CONFIG_FILE" ]; then
+if [ "$CLANG_TIDY_CONFIG_FILE" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--config-file=$CLANG_TIDY_CONFIG_FILE")
 fi
 
-if [ -n "$CLANG_TIDY_EXTRA_ARGS" ]; then
+if [ "$CLANG_TIDY_EXTRA_ARGS" != "$UNSET_VALUE" ]; then
 	read -ra CLANG_TIDY_EXTRA_ARGS_ARRAY <<<"$CLANG_TIDY_EXTRA_ARGS"
 	CLANG_TIDY_ARGS+=("${CLANG_TIDY_EXTRA_ARGS_ARRAY[@]}")
 fi
@@ -53,7 +55,7 @@ print_delim
 while IFS= read -r FILE_METADATA; do
 	FILE_PATH=$(jq -r '.file' <<<"$FILE_METADATA")
 
-	if [ -n "$CLANG_TIDY_FILE_EXCLUDE_REGEX" ] && grep -q -E -- "$CLANG_TIDY_FILE_EXCLUDE_REGEX" <<<"$FILE_PATH"; then
+	if [ "$CLANG_TIDY_FILE_EXCLUDE_REGEX" != "$UNSET_VALUE" ] && grep -q -E -- "$CLANG_TIDY_FILE_EXCLUDE_REGEX" <<<"$FILE_PATH"; then
 		printf "Skipping file %s\n" "$FILE_PATH"
 		print_delim
 		continue
