@@ -28,6 +28,13 @@ Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilation
 
 - **Required.**
 
+### `file-exclude-regex`
+
+Extended regular expression for files that will be excluded from check.
+
+- **Default:** `''`
+- **Optional.** Specify `''` to ignore.
+
 ### `checks`
 
 Comma-separated list of checks to enable/disable.
@@ -81,6 +88,7 @@ In your **GitHub Workflow:**
   with:
     version: '18'
     compile-commands-path: './path/to/compile_commands.json'
+    file-exclude-regex: '/build/'
     checks: 'cppcoreguidelines-*, modernize-*, -readability-identifier-length'
     warnings-as-errors: 'cppcoreguidelines-*'
     config-file: './path/to/.clang-tidy'
