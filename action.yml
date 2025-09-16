@@ -14,6 +14,12 @@ inputs:
     type: string
     required: true
 
+  file-exclude-regex:
+    description: Regular expression for files that will be excluded from check
+    type: string
+    required: false
+    default: ''
+
   checks:
     description: Comma-separated list of checks to enable/disable
     type: string
@@ -61,6 +67,7 @@ runs:
       env:
         CLANG_TIDY_VERSION: "${{inputs.version}}"
         CLANG_TIDY_COMPILE_COMMANDS_PATH: "${{inputs.compile-commands-path}}"
+        CLANG_TIDY_FILE_EXCLUDE_REGEX: "${{inputs.file-exclude-regex}}"
         CLANG_TIDY_CHECKS: "${{inputs.checks}}"
         CLANG_TIDY_WARNINGS_AS_ERRORS: "${{inputs.warnings-as-errors}}"
         CLANG_TIDY_CONFIG_FILE: "${{inputs.config-file}}"

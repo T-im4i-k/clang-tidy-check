@@ -53,8 +53,13 @@ print_delim
 while IFS= read -r FILE_METADATA; do
 	FILE_PATH=$(jq -r '.file' <<<"$FILE_METADATA")
 
-	printf "Checking file %s...\n" "$FILE_PATH"
+	if [ -n "$CLANG_TIDY_FILE_EXCLUDE_REGEX" ] && grep -q -E -- "$CLANG_TIDY_FILE_EXCLUDE_REGEX" <<<"$FILE_PATH"; then
+		printf "Skipping file %s\n" "$FILE_PATH"
+		print_delim
+		continue
+	fi
 
+	printf "Checking file %s...\n" "$FILE_PATH"
 	if ! clang-tidy-"$CLANG_TIDY_VERSION" "${CLANG_TIDY_ARGS[@]}" \
 		"$FILE_PATH" 2>&1; then
 		CHECK_FAIL="true"
