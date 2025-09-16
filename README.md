@@ -98,7 +98,7 @@ In your **GitHub Workflow:**
 
 ```yml
 - name: Run clang-tidy-check
-  uses: T-im4i-k/clang-tidy-check@v1
+  uses: T-im4i-k/clang-tidy-check@v2
   with:
     version: '18'
     compile-commands-path: './path/to/compile_commands.json'
@@ -116,7 +116,7 @@ In your **GitHub Workflow:**
 
 ```yml
 - name: Run clang-tidy check
-  uses: T-im4i-k/clang-tidy-check@v1
+  uses: T-im4i-k/clang-tidy-check@v2
   with:
     compile-commands-path: './path/to/compile_commands.json'
 ```
