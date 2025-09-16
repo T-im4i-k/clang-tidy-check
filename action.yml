@@ -32,6 +32,12 @@ inputs:
     required: false
     default: '__UNSET__'
 
+  config:
+    description: Configuration in a YAML/JSON format
+    type: string
+    required: false
+    default: '__UNSET__'
+
   config-file:
     description: Path to custom .clang-tidy config file
     type: string
@@ -70,6 +76,7 @@ runs:
         CLANG_TIDY_FILE_EXCLUDE_REGEX: "${{inputs.file-exclude-regex}}"
         CLANG_TIDY_CHECKS: "${{inputs.checks}}"
         CLANG_TIDY_WARNINGS_AS_ERRORS: "${{inputs.warnings-as-errors}}"
+        CLANG_TIDY_CONFIG: "${{inputs.config}}"
         CLANG_TIDY_CONFIG_FILE: "${{inputs.config-file}}"
         CLANG_TIDY_EXTRA_ARGS: "${{inputs.extra-args}}"
 

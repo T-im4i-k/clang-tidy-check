@@ -54,6 +54,15 @@ Comma-separated list of warnings that will be treated as errors.
 - **Optional.**
 - If set to `'__UNSET__'`, option will be discarded
 
+### `config`
+
+A string specifying configuration in YAML/JSON format
+
+- Same as **clang-tidy** `--config=`.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, option will be discarded
+
 ### `config-file`
 
 Path to custom `.clang-tidy` config file.
@@ -96,6 +105,7 @@ In your **GitHub Workflow:**
     file-exclude-regex: '/build/'
     checks: 'cppcoreguidelines-*, modernize-*, -readability-identifier-length'
     warnings-as-errors: 'cppcoreguidelines-*'
+    config: '__UNSET__'
     config-file: './path/to/.clang-tidy'
     extra-args: '--quiet'
 ```
