@@ -32,39 +32,44 @@ Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilation
 
 Extended regular expression for files that will be excluded from check.
 
-- **Default:** `''`
-- **Optional.** Specify `''` to ignore.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, no files will be excluded
 
 ### `checks`
 
 Comma-separated list of checks to enable/disable.
 
 - Same as **clang-tidy** `--checks=`.
-- **Default:** `''`
-- **Optional.** Specify `''` to ignore.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, option will be discarded
 
 ### `warnings-as-errors`
 
 Comma-separated list of warnings that will be treated as errors.
 
 - Same as **clang-tidy** `--warnings-as-errors=`.
-- **Default:** `'*'`
-- **Optional.** Specify `''` to ignore.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, option will be discarded
 
 ### `config-file`
 
 Path to custom `.clang-tidy` config file.
 
 - Same as **clang-tidy** `--config-file=`.
-- **Default:** `''`
-- **Optional.** Specify `''` to ignore.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, option will be discarded
 
 ### `extra-args`
 
 Any additional **clang-tidy** arguments.
 
-- **Default:** `''`
-- **Optional.** Specify `''` to ignore.
+- **Default:** `'__UNSET__'`
+- **Optional.**
+- If set to `'__UNSET__'`, option will be discarded
 
 ## Output
 
