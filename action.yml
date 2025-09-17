@@ -4,48 +4,48 @@ author: T-im4i-k
 
 inputs:
   version:
-    description: Version of clang-tidy to use
+    description: Specifies the clang-tidy version to use.
     type: string
     required: false
     default: '18'
 
   compile-commands-path:
-    description: Path to compile_commands.json file
+    description: Path to your compile_commands.json compilation database.
     type: string
     required: true
 
   file-exclude-regex:
-    description: Regular expression for files that will be excluded from check
+    description: Extended regular expression to exclude specific files from checking.
     type: string
     required: false
     default: '__UNSET__'
 
   checks:
-    description: Comma-separated list of checks to enable/disable
+    description: Comma-separated list of checks to enable or disable.
     type: string
     required: false
     default: '__UNSET__'
 
   warnings-as-errors:
-    description: Comma-separated list of warnings that will be treated as errors
+    description: Comma-separated list of warnings to treat as errors.
     type: string
     required: false
     default: '__UNSET__'
 
   config:
-    description: Configuration in a YAML/JSON format
+    description: Inline configuration in YAML/JSON format.
     type: string
     required: false
     default: '__UNSET__'
 
   config-file:
-    description: Path to custom .clang-tidy config file
+    description: Path to a .clang-tidy file or custom configuration file.
     type: string
     required: false
     default: '__UNSET__'
 
   extra-args:
-    description: Additional clang-tidy arguments
+    description: Additional arguments to pass directly to clang-tidy.
     type: string
     required: false
     default: '__UNSET__'
