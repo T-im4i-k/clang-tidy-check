@@ -13,72 +13,83 @@ This action currently supports **Ubuntu** runners only (including `ubuntu-latest
 The action processes all files listed in your `compile_commands.json` compilation database with **clang-tidy**,
 providing detailed output for each file checked.
 
+Action will fail with exit code 1 if any **clang-tidy** errors occur.
+
 ## Arguments
 
-### `version`
+### `version`: \<string\> (optional)
 
-Version of **clang-tidy** that will be used.
+Specifies the **clang-tidy** version to use.
 
 - **Default:** `'18'`
-- **Optional.**
+- **Example:** `'16'`, `'18'`, `'20'`
 
-### `compile-commands-path`
+For the list of supported versions on your runner, please, refer
+to [GitHub Actions Runner Images](https://github.com/actions/runner-images)
+and [Ubuntu Packages](https://packages.ubuntu.com/plucky/clang-tidy).
 
-Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilationDatabase.html).
+### `compile-commands-path`: \<string\> (required)
 
-- **Required.**
+Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilationDatabase.html) compilation database.
 
-### `file-exclude-regex`
+- **Example:** `'./build/compile_commands.json'`
 
-Extended regular expression for files that will be excluded from check.
+Other types of compilation databases are not currently supported.
 
-- **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, no files will be excluded
+### `file-exclude-regex`: \<string\> (optional)
 
-### `checks`
-
-Comma-separated list of checks to enable/disable.
-
-- Same as **clang-tidy** `--checks=`.
-- **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, option will be discarded
-
-### `warnings-as-errors`
-
-Comma-separated list of warnings that will be treated as errors.
-
-- Same as **clang-tidy** `--warnings-as-errors=`.
-- **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, option will be discarded
-
-### `config`
-
-A string specifying configuration in YAML/JSON format
-
-- Same as **clang-tidy** `--config=`.
-- **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, option will be discarded
-
-### `config-file`
-
-Path to custom `.clang-tidy` config file.
-
-- Same as **clang-tidy** `--config-file=`.
-- **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, option will be discarded
-
-### `extra-args`
-
-Any additional **clang-tidy** arguments.
+Extended regular expression to exclude specific files from checking.
 
 - **Default:** `'__UNSET__'`
-- **Optional.**
-- If set to `'__UNSET__'`, option will be discarded
+- **Example:** `'/build/|/third_party/'`
+
+If set to `'__UNSET__'`, no files will be excluded from check.
+
+### `checks`: \<string\> (optional)
+
+Comma-separated list of checks to enable or disable. Uses the same format as **clang-tidy** `--checks=` option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'cppcoreguidelines-*, modernize-*, -readability-identifier-length'`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+### `warnings-as-errors`: \<string\> (optional)
+
+Comma-separated list of warnings to treat as errors. Uses the same format as **clang-tidy** `--warnings-as-errors=`
+option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'cppcoreguidelines-*, modernize-use-nullptr'`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+### `config`: \<string\> (optional)
+
+Inline configuration in YAML/JSON format. Uses the same format as **clang-tidy** `--config=` option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'{ Checks: "modernize-*, -modernize-use-trailing-return-type" }'`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+### `config-file`: \<string\> (optional)
+
+Path to a `.clang-tidy` file or custom configuration file. Uses the same format as **clang-tidy** `--config-file=` option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'./.clang-tidy'`, `'./config/my-clang-tidy-config'`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+### `extra-args`: \<string\> (optional)
+
+Additional arguments to pass directly to **clang-tidy**.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'--quiet --format-style=file'`
+
+If set to `'__UNSET__'`, no additional options will be passed to **clang-tidy**.
 
 ## Output
 
@@ -87,8 +98,6 @@ The action provides following outputs:
 - Individual file checking status
 - **clang-tidy** warnings and errors
 - Final summary (SUCCESS/FAIL)
-
-Action will fail with exit code 1 if any **clang-tidy** errors occur.
 
 ## Examples
 
@@ -101,12 +110,11 @@ In your **GitHub Workflow:**
   uses: T-im4i-k/clang-tidy-check@v2
   with:
     version: '18'
-    compile-commands-path: './path/to/compile_commands.json'
-    file-exclude-regex: '/build/'
+    compile-commands-path: './build/compile_commands.json'
+    file-exclude-regex: '/build/|/third_party/'
     checks: 'cppcoreguidelines-*, modernize-*, -readability-identifier-length'
     warnings-as-errors: 'cppcoreguidelines-*'
-    config: '__UNSET__'
-    config-file: './path/to/.clang-tidy'
+    config-file: './.clang-tidy'
     extra-args: '--quiet'
 ```
 
@@ -118,5 +126,5 @@ In your **GitHub Workflow:**
 - name: Run clang-tidy check
   uses: T-im4i-k/clang-tidy-check@v2
   with:
-    compile-commands-path: './path/to/compile_commands.json'
+    compile-commands-path: './build/compile_commands.json'
 ```
