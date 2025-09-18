@@ -17,20 +17,15 @@ fi
 if [ -z "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
 	printf "Error: variable CLANG_TIDY_COMPILE_COMMANDS_PATH is required.\n"
 	exit 1
-fi
-
-if [ ! -f "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
+elif [ ! -f "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
 	printf "Error: %s is not a valid regular file.\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
 	exit 1
-fi
-
-if ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" &>/dev/null; then
+elif ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" &>/dev/null; then
 	printf "Error: %s is not a valid .json file.\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
 	exit 1
 fi
 
 CLANG_TIDY_ARGS+=("-p=$CLANG_TIDY_COMPILE_COMMANDS_PATH")
-
 if [ "$CLANG_TIDY_CHECKS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--checks=$CLANG_TIDY_CHECKS")
 fi
@@ -77,12 +72,13 @@ while IFS= read -r FILE_METADATA; do
 	fi
 
 	print_delim
+
 done < <(jq -c '.[]' "$CLANG_TIDY_COMPILE_COMMANDS_PATH")
 
 if [ "$CHECK_FAIL" = "true" ]; then
-	printf "### %s quality check FAIL ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy quality check FAIL ###\n"
 	exit 1
 else
-	printf "### %s quality check SUCCESS ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy quality check SUCCESS ###\n"
 	exit 0
 fi

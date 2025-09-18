@@ -13,9 +13,9 @@ if [ -z "$CLANG_TIDY_VERSION" ]; then
 	printf "Error: variable CLANG_TIDY_VERSION is required.\n"
 	exit 1
 elif [ "$CLANG_TIDY_VERSION" = "$UNSET_VALUE" ]; then
-  CLANG_TIDY="clang-tidy"
+	CLANG_TIDY="clang-tidy"
 else
-  CLANG_TIDY="clang-tidy-$CLANG_TIDY_VERSION"
+	CLANG_TIDY="clang-tidy-$CLANG_TIDY_VERSION"
 fi
 
 function print_delim() {
@@ -41,9 +41,9 @@ fi
 print_delim
 
 if [ "$INSTALLATION_FAIL" = "true" ]; then
-	printf "### %s installation FAIL ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy installation FAIL ###\n"
 	exit 1
 else
-	printf "### %s installation SUCCESS ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy installation SUCCESS ###\n"
 	exit 0
 fi
