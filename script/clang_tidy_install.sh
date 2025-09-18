@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Installs a specified version of the clang-tidy static analysis tool on Ubuntu/Debian systems using apt-get.
+# Requires CLANG_TIDY_VERSION environment variable to specify the version to install.
+# Example: CLANG_TIDY_VERSION=14 sudo apt-get update && ./install-clang-tidy.sh
+
 if [ -z "$CLANG_TIDY_VERSION" ]; then
 	printf "Error: variable CLANG_TIDY_VERSION is required.\n"
 	exit 1
