@@ -15,22 +15,17 @@ else
 fi
 
 if [ -z "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
-	printf "Error: variable CLANG_TIDY_COMPILE_COMMANDS_PATH is required\n"
+	printf "Error: variable CLANG_TIDY_COMPILE_COMMANDS_PATH is required.\n"
 	exit 1
-fi
-
-if [ ! -f "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
-	printf "Error: %s is not a valid regular file\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
+elif [ ! -f "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
+	printf "Error: %s is not a valid regular file.\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
 	exit 1
-fi
-
-if ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" 1>/dev/null 2>&1; then
-	printf "Error: %s is not a valid .json file\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
+elif ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" &>/dev/null; then
+	printf "Error: %s is not a valid .json file.\n" "$CLANG_TIDY_COMPILE_COMMANDS_PATH"
 	exit 1
 fi
 
 CLANG_TIDY_ARGS+=("-p=$CLANG_TIDY_COMPILE_COMMANDS_PATH")
-
 if [ "$CLANG_TIDY_CHECKS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--checks=$CLANG_TIDY_CHECKS")
 fi
@@ -57,14 +52,15 @@ function print_delim() {
 }
 
 printf "Checking code quality with %s...\n" "$CLANG_TIDY"
-printf "%s arguments: %s\n" "$CLANG_TIDY" "${CLANG_TIDY_ARGS[*]}"
+printf "arguments: %s\n" "${CLANG_TIDY_ARGS[*]}"
 print_delim
 
 while IFS= read -r FILE_METADATA; do
 	FILE_PATH=$(jq -r '.file' <<<"$FILE_METADATA")
 
-	if [ "$CLANG_TIDY_FILE_EXCLUDE_REGEX" != "$UNSET_VALUE" ] && grep -q -E -- "$CLANG_TIDY_FILE_EXCLUDE_REGEX" <<<"$FILE_PATH"; then
-		printf "Skipping file %s\n" "$FILE_PATH"
+	if [ "$CLANG_TIDY_FILE_EXCLUDE_REGEX" != "$UNSET_VALUE" ] && \
+	grep -q -E -- "$CLANG_TIDY_FILE_EXCLUDE_REGEX" <<<"$FILE_PATH" &>/dev/null; then
+		printf "Skipping file %s.\n" "$FILE_PATH"
 		print_delim
 		continue
 	fi
@@ -76,12 +72,13 @@ while IFS= read -r FILE_METADATA; do
 	fi
 
 	print_delim
+
 done < <(jq -c '.[]' "$CLANG_TIDY_COMPILE_COMMANDS_PATH")
 
 if [ "$CHECK_FAIL" = "true" ]; then
-	printf "### %s quality check FAIL ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy quality check FAIL ###\n"
 	exit 1
 else
-	printf "### %s quality check SUCCESS ###\n" "$CLANG_TIDY"
+	printf "### clang-tidy quality check SUCCESS ###\n"
 	exit 0
 fi
