@@ -21,8 +21,10 @@ Action will fail with exit code 1 if any **clang-tidy** errors occur.
 
 Specifies the **clang-tidy** version to use.
 
-- **Default:** `'18'`
+- **Default:** `'__UNSET__'`
 - **Example:** `'16'`, `'18'`, `'20'`
+
+If set to `'__UNSET__'`, default version of clang-tidy will be used.
 
 For the list of supported versions on your runner, please, refer
 to [GitHub Actions Runner Images](https://github.com/actions/runner-images)

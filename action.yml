@@ -7,7 +7,7 @@ inputs:
     description: Specifies the clang-tidy version to use.
     type: string
     required: false
-    default: '18'
+    default: '__UNSET__'
 
   compile-commands-path:
     description: Path to your compile_commands.json compilation database.
