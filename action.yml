@@ -61,11 +61,20 @@ runs:
           exit 1
         fi
 
-    - name: Install clang-tidy
+    - name: Update apt-get
       shell: bash
       run: |
-        sudo apt-get update && \
-        sudo apt-get install -y clang-tidy-"${{inputs.version}}"
+        printf "Updating apt-get...\n"
+        if ! sudo apt-get update &>/dev/null; then
+          printf "Error: failed to update apt-get.\n"
+          exit 1
+        fi
+
+    - name: Install clang-tidy
+      shell: bash
+      run: bash "${{github.action_path}}/script/clang_tidy_install.sh"
+      env:
+        CLANG_TIDY_VERSION: "${{inputs.version}}"
 
     - name: Check code quality
       shell: bash
