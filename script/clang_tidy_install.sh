@@ -2,15 +2,21 @@
 
 # Installs a specified version of the clang-tidy static analysis tool on Ubuntu/Debian systems using apt-get.
 # Requires CLANG_TIDY_VERSION environment variable to specify the version to install.
+# Set CLANG_TIDY_VERSION='__UNSET__' to install default version of clang-tidy.
 # Example: CLANG_TIDY_VERSION=14 sudo apt-get update && ./install-clang-tidy.sh
+
+INSTALLATION_FAIL="false"
+UNSET_VALUE='__UNSET__'
+CLANG_TIDY=""
 
 if [ -z "$CLANG_TIDY_VERSION" ]; then
 	printf "Error: variable CLANG_TIDY_VERSION is required.\n"
 	exit 1
+elif [ "$CLANG_TIDY_VERSION" = "$UNSET_VALUE" ]; then
+  CLANG_TIDY="clang-tidy"
+else
+  CLANG_TIDY="clang-tidy-$CLANG_TIDY_VERSION"
 fi
-
-CLANG_TIDY="clang-tidy-$CLANG_TIDY_VERSION"
-INSTALLATION_FAIL="false"
 
 function print_delim() {
 	printf -- "---\n"
