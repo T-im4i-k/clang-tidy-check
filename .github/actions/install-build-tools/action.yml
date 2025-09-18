@@ -8,6 +8,7 @@ runs:
     - name: Check runner OS
       shell: bash
       run: |
+        printf "Checking runner OS...\n"
         if [ "$RUNNER_OS" != "Linux" ]; then
           printf "Error: OS %s is not supported.\n" "$RUNNER_OS"
           exit 1
@@ -18,7 +19,7 @@ runs:
       run: |
         printf "Updating apt-get...\n"
         if ! sudo apt-get update &>/dev/null; then
-          printf "Error: apt-get update failed.\n"
+          printf "Error: failed to update apt-get.\n"
           exit 1
         fi
 
