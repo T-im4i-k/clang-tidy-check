@@ -1,8 +1,17 @@
 #!/bin/bash
 
+CHECK_FAIL="false"
+CLANG_TIDY=""
+CLANG_TIDY_ARGS=()
+UNSET_VALUE='__UNSET__'
+
 if [ -z "$CLANG_TIDY_VERSION" ]; then
-	printf "Error: variable CLANG_TIDY_VERSION is required\n"
+	printf "Error: variable CLANG_TIDY_VERSION is required.\n"
 	exit 1
+elif [ "$CLANG_TIDY_VERSION" = "$UNSET_VALUE" ]; then
+	CLANG_TIDY="clang-tidy"
+else
+	CLANG_TIDY="clang-tidy-$CLANG_TIDY_VERSION"
 fi
 
 if [ -z "$CLANG_TIDY_COMPILE_COMMANDS_PATH" ]; then
@@ -20,10 +29,7 @@ if ! jq empty "$CLANG_TIDY_COMPILE_COMMANDS_PATH" 1>/dev/null 2>&1; then
 	exit 1
 fi
 
-CLANG_TIDY_ARGS=()
 CLANG_TIDY_ARGS+=("-p=$CLANG_TIDY_COMPILE_COMMANDS_PATH")
-
-UNSET_VALUE='__UNSET__'
 
 if [ "$CLANG_TIDY_CHECKS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--checks=$CLANG_TIDY_CHECKS")
@@ -50,10 +56,8 @@ function print_delim() {
 	printf -- "---\n"
 }
 
-CHECK_FAIL="false"
-
-printf "Checking code quality with clang-tidy...\n"
-printf "clang-tidy arguments: %s\n" "${CLANG_TIDY_ARGS[*]}"
+printf "Checking code quality with %s...\n" "$CLANG_TIDY"
+printf "%s arguments: %s\n" "$CLANG_TIDY" "${CLANG_TIDY_ARGS[*]}"
 print_delim
 
 while IFS= read -r FILE_METADATA; do
@@ -66,7 +70,7 @@ while IFS= read -r FILE_METADATA; do
 	fi
 
 	printf "Checking file %s...\n" "$FILE_PATH"
-	if ! clang-tidy-"$CLANG_TIDY_VERSION" "${CLANG_TIDY_ARGS[@]}" \
+	if ! "$CLANG_TIDY" "${CLANG_TIDY_ARGS[@]}" \
 		"$FILE_PATH" 2>&1; then
 		CHECK_FAIL="true"
 	fi
@@ -75,9 +79,9 @@ while IFS= read -r FILE_METADATA; do
 done < <(jq -c '.[]' "$CLANG_TIDY_COMPILE_COMMANDS_PATH")
 
 if [ "$CHECK_FAIL" = "true" ]; then
-	printf "### clang-tidy quality check FAIL ###\n"
+	printf "### %s quality check FAIL ###\n" "$CLANG_TIDY"
 	exit 1
 else
-	printf "### clang-tidy quality check SUCCESS ###\n"
+	printf "### %s quality check SUCCESS ###\n" "$CLANG_TIDY"
 	exit 0
 fi
