@@ -52,7 +52,7 @@ function print_delim() {
 }
 
 printf "Checking code quality with %s...\n" "$CLANG_TIDY"
-printf "arguments: %s\n" "$CLANG_TIDY" "${CLANG_TIDY_ARGS[*]}"
+printf "arguments: %s\n" "${CLANG_TIDY_ARGS[*]}"
 print_delim
 
 while IFS= read -r FILE_METADATA; do
