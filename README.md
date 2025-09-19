@@ -109,7 +109,7 @@ In your **GitHub Workflow:**
 
 ```yml
 - name: Run clang-tidy-check
-  uses: T-im4i-k/clang-tidy-check@v2
+  uses: T-im4i-k/clang-tidy-check@v3
   with:
     version: '18'
     compile-commands-path: './build/compile_commands.json'
@@ -126,7 +126,7 @@ In your **GitHub Workflow:**
 
 ```yml
 - name: Run clang-tidy check
-  uses: T-im4i-k/clang-tidy-check@v2
+  uses: T-im4i-k/clang-tidy-check@v3
   with:
     compile-commands-path: './build/compile_commands.json'
 ```
