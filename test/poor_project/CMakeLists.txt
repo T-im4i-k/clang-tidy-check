@@ -7,4 +7,4 @@ project(poor_project
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-add_executable(poor_project test.cpp)
+add_executable(poor_project main.cpp)
