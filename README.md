@@ -66,6 +66,16 @@ option.
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
 
+### `header-filter`: \<string\> (optional)
+
+Extended regular expression to include specific header files in the check. Uses the same format as **clang-tidy**
+`--header-filter=` option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'.*'`, `'/include/'`, `''`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
 ### `config`: \<string\> (optional)
 
 Inline configuration in YAML/JSON format. Uses the same format as **clang-tidy** `--config=` option.
@@ -77,7 +87,8 @@ If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
 
 ### `config-file`: \<string\> (optional)
 
-Path to a `.clang-tidy` file or custom configuration file. Uses the same format as **clang-tidy** `--config-file=` option.
+Path to a `.clang-tidy` file or custom configuration file. Uses the same format as **clang-tidy** `--config-file=`
+option.
 
 - **Default:** `'__UNSET__'`
 - **Example:** `'./.clang-tidy'`, `'./config/my-clang-tidy-config'`
@@ -116,6 +127,7 @@ In your **GitHub Workflow:**
     file-exclude-regex: '/build/|/third_party/'
     checks: 'cppcoreguidelines-*, modernize-*, -readability-identifier-length'
     warnings-as-errors: 'cppcoreguidelines-*'
+    header-filter: '.*'
     config-file: './.clang-tidy'
     extra-args: '--quiet'
 ```

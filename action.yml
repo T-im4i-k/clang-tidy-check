@@ -32,6 +32,12 @@ inputs:
     required: false
     default: '__UNSET__'
 
+  header-filter:
+    description: Extended regular expression to include specific header files in the check.
+    type: string
+    required: false
+    default: '__UNSET__'
+
   config:
     description: Inline configuration in YAML/JSON format.
     type: string
@@ -86,6 +92,7 @@ runs:
         CLANG_TIDY_FILE_EXCLUDE_REGEX: "${{inputs.file-exclude-regex}}"
         CLANG_TIDY_CHECKS: "${{inputs.checks}}"
         CLANG_TIDY_WARNINGS_AS_ERRORS: "${{inputs.warnings-as-errors}}"
+        CLANG_TIDY_HEADER_FILTER: "${{inputs.header-filter}}"
         CLANG_TIDY_CONFIG: "${{inputs.config}}"
         CLANG_TIDY_CONFIG_FILE: "${{inputs.config-file}}"
         CLANG_TIDY_EXTRA_ARGS: "${{inputs.extra-args}}"
