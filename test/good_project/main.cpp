@@ -1,12 +1,10 @@
 // Good quality code, that should pass quality checks
 
+#include "math_lib/sqr.hpp"
+
 #include <array>
 #include <cassert>
 #include <numeric>
-
-namespace Math {
-    auto sqr(const int x) -> int { return x * x; }
-} // namespace Math
 
 auto main() -> int {
     constexpr std::size_t ARRAY_SIZE = 10;
