@@ -34,6 +34,10 @@ if [ "$CLANG_TIDY_WARNINGS_AS_ERRORS" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--warnings-as-errors=$CLANG_TIDY_WARNINGS_AS_ERRORS")
 fi
 
+if [ "$CLANG_TIDY_HEADER_FILTER" != "$UNSET_VALUE" ]; then
+	CLANG_TIDY_ARGS+=("--header-filter=$CLANG_TIDY_HEADER_FILTER")
+fi
+
 if [ "$CLANG_TIDY_CONFIG" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--config=$CLANG_TIDY_CONFIG")
 fi
