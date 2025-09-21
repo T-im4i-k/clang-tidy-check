@@ -42,6 +42,12 @@ inputs:
     required: false
     default: '__UNSET__'
 
+  format-style:
+    description: Specifies the code formatting style to apply around proposed fixes.
+    type: string
+    required: false
+    default: '__UNSET__'
+
   config:
     description: Inline configuration in YAML/JSON format.
     type: string
@@ -97,6 +103,7 @@ runs:
         CLANG_TIDY_CHECKS: "${{inputs.checks}}"
         CLANG_TIDY_WARNINGS_AS_ERRORS: "${{inputs.warnings-as-errors}}"
         CLANG_TIDY_HEADER_FILTER: "${{inputs.header-filter}}"
+        CLANG_TIDY_FORMAT_STYLE: "${{inputs.format-style}}"
         CLANG_TIDY_CONFIG: "${{inputs.config}}"
         CLANG_TIDY_CONFIG_FILE: "${{inputs.config-file}}"
         CLANG_TIDY_EXTRA_ARGS: "${{inputs.extra-args}}"

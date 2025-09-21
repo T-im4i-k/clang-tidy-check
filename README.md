@@ -86,6 +86,18 @@ If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
 
 This argument overrides the 'HeaderFilterRegex' option in config, if any.
 
+### `format-style`: \<string\> (optional)
+
+Specifies the code formatting style to apply around proposed fixes. Uses the same format as **clang-tidy**
+`--format-style=` option.
+
+- **Default:** `'__UNSET__'`
+- **Example:** `'file'`, `'llvm'`, `'none'`
+
+If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+This argument overrides the 'FormatStyle' option in config, if any.
+
 ### `config`: \<string\> (optional)
 
 Inline configuration in YAML/JSON format. Uses the same format as **clang-tidy** `--config=` option.
@@ -142,6 +154,7 @@ In your **GitHub Workflow:**
     checks: 'cppcoreguidelines-*, modernize-*, -readability-identifier-length'
     warnings-as-errors: 'cppcoreguidelines-*'
     header-filter: '.*'
+    format-style: 'file'
     config-file: './.clang-tidy'
     extra-args: '--quiet'
 ```

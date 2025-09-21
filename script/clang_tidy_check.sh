@@ -41,6 +41,10 @@ if [ "$CLANG_TIDY_HEADER_FILTER" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--header-filter=$CLANG_TIDY_HEADER_FILTER")
 fi
 
+if [ "$CLANG_TIDY_FORMAT_STYLE" != "$UNSET_VALUE" ]; then
+	CLANG_TIDY_ARGS+=("--format-style=$CLANG_TIDY_FORMAT_STYLE")
+fi
+
 if [ "$CLANG_TIDY_CONFIG" != "$UNSET_VALUE" ]; then
 	CLANG_TIDY_ARGS+=("--config=$CLANG_TIDY_CONFIG")
 fi
