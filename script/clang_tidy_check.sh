@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Runs clang-tidy static analysis on all source files found in compilation database.
+# This script should only be called from clang-tidy-check action.yml
+
 CHECK_FAIL="false"
 CLANG_TIDY=""
 CLANG_TIDY_ARGS=()

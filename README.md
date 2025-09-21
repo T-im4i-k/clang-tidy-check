@@ -26,7 +26,7 @@ Specifies the **clang-tidy** version to use.
 
 If set to `'__UNSET__'`, default version of clang-tidy will be used.
 
-For the list of supported versions on your runner, please, refer
+Note: For the list of supported versions on your runner, please, refer
 to [GitHub Actions Runner Images](https://github.com/actions/runner-images)
 and [Ubuntu Packages](https://packages.ubuntu.com/plucky/clang-tidy).
 
@@ -36,7 +36,7 @@ Path to your [compile_commands.json](https://clang.llvm.org/docs/JSONCompilation
 
 - **Example:** `'./build/compile_commands.json'`
 
-Other types of compilation databases are not currently supported.
+Note: Other types of compilation databases are not currently supported.
 
 ### `file-exclude-regex`: \<string\> (optional)
 
@@ -47,6 +47,8 @@ Extended regular expression to exclude specific files from checking.
 
 If set to `'__UNSET__'`, no files will be excluded from check.
 
+Note: Other types of regular expressions are not currently supported.
+
 ### `checks`: \<string\> (optional)
 
 Comma-separated list of checks to enable or disable. Uses the same format as **clang-tidy** `--checks=` option.
@@ -55,6 +57,9 @@ Comma-separated list of checks to enable or disable. Uses the same format as **c
 - **Example:** `'cppcoreguidelines-*, modernize-*, -readability-identifier-length'`
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+This argument's value is appended to the
+value of the 'Checks' option in config, if any.
 
 ### `warnings-as-errors`: \<string\> (optional)
 
@@ -66,6 +71,9 @@ option.
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
 
+This argument's value is appended to the value of
+the 'WarningsAsErrors' option in config, if any.
+
 ### `header-filter`: \<string\> (optional)
 
 Extended regular expression to include specific header files in the check. Uses the same format as **clang-tidy**
@@ -76,6 +84,8 @@ Extended regular expression to include specific header files in the check. Uses 
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
 
+This argument overrides the 'HeaderFilterRegex' option in config, if any.
+
 ### `config`: \<string\> (optional)
 
 Inline configuration in YAML/JSON format. Uses the same format as **clang-tidy** `--config=` option.
@@ -84,6 +94,8 @@ Inline configuration in YAML/JSON format. Uses the same format as **clang-tidy**
 - **Example:** `'{ Checks: "modernize-*, -modernize-use-trailing-return-type" }'`
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+**Warning:** This argument should not be used simultaneously with `config-file` argument.
 
 ### `config-file`: \<string\> (optional)
 
@@ -94,6 +106,8 @@ option.
 - **Example:** `'./.clang-tidy'`, `'./config/my-clang-tidy-config'`
 
 If set to `'__UNSET__'`, option will not be passed to **clang-tidy**.
+
+**Warning:** This argument should not be used simultaneously with `config` argument.
 
 ### `extra-args`: \<string\> (optional)
 
