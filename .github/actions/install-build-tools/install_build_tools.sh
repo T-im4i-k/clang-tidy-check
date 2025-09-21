@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# Installs default versions of cmake, ninja and clang
+# This script should only be called from install-build-tools action.yml
+
 INSTALLATION_FAIL="false"
 
 function print_delim() {
