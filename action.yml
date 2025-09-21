@@ -2,6 +2,10 @@ name: Clang Tidy Check
 description: Checks C++ code quality with clang-tidy
 author: T-im4i-k
 
+branding:
+  icon: shield
+  color: green
+
 inputs:
   version:
     description: Specifies the clang-tidy version to use.
